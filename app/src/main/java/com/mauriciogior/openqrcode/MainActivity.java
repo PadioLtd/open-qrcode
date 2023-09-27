@@ -23,7 +23,7 @@
  * SOFTWARE.
  */
 
-package com.mauriciogior.openqrcode;
+package com.padio.openqrcode;
 
 import android.Manifest;
 import android.content.ClipData;
@@ -355,11 +355,30 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
         mScannerView.stopCamera();
     }
 
-    @Override
+    /*@Override
     public void handleResult(Result result) {
         pushHistory(result.getText());
         showAlertDialog(result.getText(), true);
-    }
+    }*/
+
+  @Override
+    public void handleResult(Result result) {
+            if ("com.google.zxing.client.android.SCAN".equals(getIntent().getAction())) {
+                String resultText = result.getText();
+                // Optionally, push the result to history or perform other actions
+                pushHistory(resultText);
+                // Return the result to the calling app using an Intent
+                Intent intent = new Intent("com.google.zxing.client.android.SCAN");
+                intent.putExtra("SCAN_RESULT", resultText);
+                setResult(RESULT_OK, intent);
+                finish(); // Finish the activity to return to the calling app
+            } else {
+                pushHistory(result.getText());
+                showAlertDialog(result.getText(), true);
+            }
+        }
+
+
 
     private void showAlertDialog(final String text) {
         showAlertDialog(text, false);
@@ -434,7 +453,7 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
             new AlertDialog.Builder(this)
                 .setTitle("Info")
                 .setMessage("Created by a pissed of developer from apps loaded with ads.\n\n" +
-                 "Mauricio Giordano <giordano@inevent.us>\n\n" +
+                 "Updated target API and modified on 27.9.2023\n\n" +
                  "Open source software under MIT License")
                 .setNegativeButton("Ok", null)
                 .show();

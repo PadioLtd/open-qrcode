@@ -1,21 +1,35 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 33
     defaultConfig {
-        applicationId "com.mauriciogior.openqrcode"
-        minSdkVersion 14
-        targetSdkVersion 27
-        versionCode 3
-        versionName "1.2"
+        applicationId "com.padio.openqrcode"
+        minSdkVersion 31
+        targetSdkVersion 33
+        versionCode 4
+        versionName "1.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
-    buildTypes {
+    signingConfigs{
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            storeFile file('')
+            storePassword ''
+            keyAlias ''
+            keyPassword ''
         }
     }
+
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            applicationIdSuffix 'qrcodescanner'
+            versionNameSuffix '1.3'
+        }
+    }
+    namespace 'com.padio.openqrcode'
 }
 
 dependencies {
